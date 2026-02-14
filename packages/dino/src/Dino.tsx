@@ -181,7 +181,7 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
       ctx.fillRect(x + 32, y + 10, 8, 4);
       
       // Eye
-      ctx.fillRect(x + 34, y + 2, 2, 2);
+      ctx.fillRect(x + 34, y + 3, 2, 2);
       
       // Mouth detail
       ctx.fillRect(x + 38, y + 6, 2, 2);
@@ -320,7 +320,7 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
     ctx.font = 'bold 16px monospace';
     ctx.textAlign = 'right';
     const score = Math.floor(gameState.score);
-    const scoreText = ('00000' + score).slice(-5);
+    const scoreText = ('00000' + Math.min(score, 99999)).slice(-5);
     ctx.fillText(scoreText, CANVAS_WIDTH - 20, 30);
 
     // Draw game over message (Chrome style)
