@@ -156,6 +156,8 @@ export function updateGameState(
   }
 
   // Update score (increment by a small amount each frame)
+  // Note: This assumes consistent frame rates (~60fps). For variable frame rate support,
+  // consider using delta time: score += (pointsPerSecond * deltaTime * speed)
   newState.score = state.score + (0.1 * speed);
 
   return { newState, newVelocityY };

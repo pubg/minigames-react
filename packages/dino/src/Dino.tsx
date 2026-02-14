@@ -114,7 +114,7 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
           onFinishCalledRef.current = true;
           const elapsedTime = (Date.now() - currentStartTime) / 1000;
           currentOnFinish({
-            score: currentState.score,
+            score: Math.floor(currentState.score),
             time: elapsedTime,
           });
         }
