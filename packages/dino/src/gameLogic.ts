@@ -155,8 +155,8 @@ export function updateGameState(
     }
   }
 
-  // Update score
-  newState.score = state.score + Math.floor(speed);
+  // Update score (increment by a small amount each frame)
+  newState.score = state.score + (0.1 * speed);
 
   return { newState, newVelocityY };
 }

@@ -17,6 +17,16 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
   const velocityYRef = useRef(0);
   const animationFrameRef = useRef<number>();
   const keysPressed = useRef<Set<string>>(new Set());
+  const gameStateRef = useRef(gameState);
+  const onFinishRef = useRef(onFinish);
+  const startTimeRef = useRef(startTime);
+
+  // Update refs when state changes
+  useEffect(() => {
+    gameStateRef.current = gameState;
+    onFinishRef.current = onFinish;
+    startTimeRef.current = startTime;
+  }, [gameState, onFinish, startTime]);
 
   // Reset game
   const resetGame = useCallback(() => {
@@ -92,24 +102,29 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
 
   // Game loop
   useEffect(() => {
-    if (gameState.gameOver) {
-      if (onFinish && startTime > 0) {
-        const elapsedTime = (Date.now() - startTime) / 1000;
-        onFinish({
-          score: gameState.score,
-          time: elapsedTime,
-        });
-      }
-      return;
-    }
-
-    if (!gameState.gameStarted) {
-      return;
-    }
-
     const gameLoop = () => {
+      const currentState = gameStateRef.current;
+      
+      if (currentState.gameOver) {
+        const currentOnFinish = onFinishRef.current;
+        const currentStartTime = startTimeRef.current;
+        if (currentOnFinish && currentStartTime > 0) {
+          const elapsedTime = (Date.now() - currentStartTime) / 1000;
+          currentOnFinish({
+            score: currentState.score,
+            time: elapsedTime,
+          });
+        }
+        return;
+      }
+
+      if (!currentState.gameStarted) {
+        animationFrameRef.current = requestAnimationFrame(gameLoop);
+        return;
+      }
+
       const { newState, newVelocityY } = updateGameState(
-        gameState,
+        currentState,
         velocityYRef.current,
         speed
       );
@@ -125,7 +140,7 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [gameState, onFinish, speed, startTime]);
+  }, [speed]); // Only depend on speed which is a prop
 
   // Render game
   useEffect(() => {
