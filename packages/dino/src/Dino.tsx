@@ -145,6 +145,130 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
     };
   }, [speed]); // Only depend on speed which is a prop
 
+  // Helper function to draw T-Rex
+  const drawDino = (ctx: CanvasRenderingContext2D, x: number, y: number, isDucking: boolean, frame: number) => {
+    ctx.fillStyle = '#535353';
+    
+    if (isDucking) {
+      // Ducking T-Rex - lower profile
+      // Body
+      ctx.fillRect(x + 6, y + 18, 32, 14);
+      // Tail
+      ctx.fillRect(x, y + 20, 6, 4);
+      // Head
+      ctx.fillRect(x + 32, y + 14, 10, 8);
+      ctx.fillRect(x + 38, y + 14, 4, 4);
+      // Eye
+      ctx.fillRect(x + 38, y + 14, 2, 2);
+      // Front leg
+      ctx.fillRect(x + 30, y + 28, 4, 4);
+      // Back leg
+      ctx.fillRect(x + 18, y + 28, 4, 4);
+    } else {
+      // Standing/Jumping T-Rex
+      // Tail
+      ctx.fillRect(x, y + 16, 4, 4);
+      ctx.fillRect(x + 4, y + 12, 4, 8);
+      
+      // Body
+      ctx.fillRect(x + 8, y + 8, 16, 16);
+      
+      // Neck
+      ctx.fillRect(x + 22, y + 4, 6, 12);
+      
+      // Head
+      ctx.fillRect(x + 28, y, 12, 10);
+      ctx.fillRect(x + 32, y + 10, 8, 4);
+      
+      // Eye
+      ctx.fillRect(x + 34, y + 2, 2, 2);
+      
+      // Mouth detail
+      ctx.fillRect(x + 38, y + 6, 2, 2);
+      
+      // Legs - alternate for running animation
+      const legFrame = Math.floor(frame / 5) % 2;
+      if (legFrame === 0) {
+        // Front leg forward
+        ctx.fillRect(x + 20, y + 24, 4, 6);
+        ctx.fillRect(x + 20, y + 30, 6, 2);
+        // Back leg back
+        ctx.fillRect(x + 10, y + 24, 4, 4);
+        ctx.fillRect(x + 8, y + 28, 6, 2);
+      } else {
+        // Front leg back
+        ctx.fillRect(x + 20, y + 24, 4, 4);
+        ctx.fillRect(x + 18, y + 28, 6, 2);
+        // Back leg forward
+        ctx.fillRect(x + 10, y + 24, 4, 6);
+        ctx.fillRect(x + 10, y + 30, 6, 2);
+      }
+      
+      // Arm
+      ctx.fillRect(x + 22, y + 12, 4, 4);
+    }
+  };
+
+  // Helper function to draw cactus
+  const drawCactus = (ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number) => {
+    ctx.fillStyle = '#535353';
+    
+    // Main stem
+    const stemWidth = 8;
+    const stemX = x + (width - stemWidth) / 2;
+    ctx.fillRect(stemX, y, stemWidth, height);
+    
+    // Add arms if cactus is tall enough
+    if (height > 30) {
+      // Left arm
+      ctx.fillRect(stemX - 6, y + height * 0.3, 6, 3);
+      ctx.fillRect(stemX - 6, y + height * 0.3, 3, height * 0.3);
+      
+      // Right arm (if wide enough)
+      if (width > 16) {
+        ctx.fillRect(stemX + stemWidth, y + height * 0.4, 6, 3);
+        ctx.fillRect(stemX + stemWidth + 3, y + height * 0.4, 3, height * 0.25);
+      }
+    }
+  };
+
+  // Helper function to draw pterodactyl
+  const drawPterodactyl = (ctx: CanvasRenderingContext2D, x: number, y: number, frame: number) => {
+    ctx.fillStyle = '#535353';
+    
+    // Body
+    ctx.fillRect(x + 6, y + 4, 16, 8);
+    
+    // Head
+    ctx.fillRect(x + 20, y + 2, 8, 6);
+    ctx.fillRect(x + 26, y + 4, 4, 4);
+    
+    // Beak
+    ctx.fillRect(x + 28, y + 6, 4, 2);
+    
+    // Eye
+    ctx.fillRect(x + 24, y + 4, 2, 2);
+    
+    // Tail
+    ctx.fillRect(x, y + 6, 6, 4);
+    ctx.fillRect(x - 4, y + 8, 4, 2);
+    
+    // Wings - flapping animation
+    const wingFrame = Math.floor(frame / 8) % 2;
+    if (wingFrame === 0) {
+      // Wings up
+      ctx.fillRect(x + 6, y, 12, 4);
+      ctx.fillRect(x + 6, y + 12, 12, 4);
+    } else {
+      // Wings down
+      ctx.fillRect(x + 6, y - 2, 12, 4);
+      ctx.fillRect(x + 6, y + 14, 12, 4);
+    }
+  };
+
+  // Animation frame counter
+  const frameCountRef = useRef(0);
+
   // Render game
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -153,80 +277,72 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Clear canvas
-    ctx.fillStyle = '#f7f7f7';
+    frameCountRef.current++;
+
+    // Clear canvas with white background (Chrome style)
+    ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // Draw ground
+    // Draw ground with dashed line
     ctx.strokeStyle = '#535353';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(0, GROUND_HEIGHT);
     ctx.lineTo(CANVAS_WIDTH, GROUND_HEIGHT);
     ctx.stroke();
+    
+    // Draw ground dots/texture
+    ctx.fillStyle = '#535353';
+    for (let i = 0; i < CANVAS_WIDTH; i += 20) {
+      ctx.fillRect(i, GROUND_HEIGHT + 2, 2, 2);
+    }
 
     // Draw dino
-    ctx.fillStyle = '#535353';
-    if (gameState.isDucking && !gameState.isJumping) {
-      // Ducking dino (rectangular)
-      ctx.fillRect(
-        gameState.dino.x,
-        gameState.dino.y,
-        gameState.dino.width,
-        gameState.dino.height
-      );
-    } else {
-      // Standing/jumping dino (simplified T-Rex shape)
-      ctx.fillRect(
-        gameState.dino.x,
-        gameState.dino.y,
-        gameState.dino.width,
-        gameState.dino.height
-      );
-      // Head
-      ctx.fillRect(
-        gameState.dino.x + 25,
-        gameState.dino.y - 10,
-        15,
-        15
-      );
-    }
+    drawDino(
+      ctx,
+      gameState.dino.x,
+      gameState.dino.y,
+      gameState.isDucking && !gameState.isJumping,
+      gameState.gameStarted ? frameCountRef.current : 0
+    );
 
     // Draw obstacles
     gameState.obstacles.forEach(obstacle => {
-      ctx.fillStyle = obstacle.type === 'cactus' ? '#535353' : '#666';
       if (obstacle.type === 'cactus') {
-        // Draw cactus
-        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        drawCactus(ctx, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
       } else {
-        // Draw bird (simplified)
-        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-        // Wings
-        ctx.fillRect(obstacle.x - 5, obstacle.y + 5, 10, 3);
-        ctx.fillRect(obstacle.x + obstacle.width - 5, obstacle.y + 5, 10, 3);
+        drawPterodactyl(ctx, obstacle.x, obstacle.y, frameCountRef.current);
       }
     });
 
-    // Draw score
+    // Draw score (Chrome style)
     ctx.fillStyle = '#535353';
-    ctx.font = '20px monospace';
+    ctx.font = 'bold 16px monospace';
     ctx.textAlign = 'right';
-    ctx.fillText(`Score: ${Math.floor(gameState.score)}`, CANVAS_WIDTH - 20, 30);
+    const score = Math.floor(gameState.score);
+    const scoreText = ('00000' + score).slice(-5);
+    ctx.fillText(scoreText, CANVAS_WIDTH - 20, 30);
 
-    // Draw game over message
+    // Draw game over message (Chrome style)
     if (gameState.gameOver) {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-      ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-      ctx.fillStyle = '#fff';
-      ctx.font = '40px monospace';
+      ctx.fillStyle = '#535353';
+      ctx.font = 'bold 24px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('GAME OVER', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 20);
-      ctx.font = '20px monospace';
-      ctx.fillText(`Score: ${Math.floor(gameState.score)}`, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 20);
+      ctx.fillText('G A M E  O V E R', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 10);
+      
+      // Draw restart icon (simple arrow)
+      const iconX = CANVAS_WIDTH / 2 - 20;
+      const iconY = CANVAS_HEIGHT / 2 + 15;
+      ctx.fillRect(iconX, iconY, 16, 16);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(iconX + 4, iconY + 4, 8, 8);
+      ctx.fillStyle = '#535353';
+      ctx.font = '12px monospace';
       ctx.fillText('Press R to restart', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 50);
     } else if (!gameState.gameStarted) {
+      // Draw start message more subtly
       ctx.fillStyle = '#535353';
-      ctx.font = '20px monospace';
+      ctx.font = '14px monospace';
       ctx.textAlign = 'center';
       ctx.fillText('Press SPACE or ↑ to start', CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
     }
