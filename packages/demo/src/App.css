@@ -1,0 +1,133 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+.app-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.app-header h1 {
+  font-size: 48px;
+  margin: 0 0 16px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.app-header p {
+  font-size: 18px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.games-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  max-width: 1200px;
+}
+
+.game-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.game-card h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.game-info {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  width: 100%;
+}
+
+.game-info p {
+  margin: 4px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.game-result {
+  background: #e8f5e9;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.game-result.lost {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.difficulty-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.difficulty-button {
+  padding: 8px 16px;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.difficulty-button:hover {
+  background: #667eea;
+  color: white;
+}
+
+.difficulty-button.active {
+  background: #667eea;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 32px;
+  }
+  
+  .app-header p {
+    font-size: 16px;
+  }
+  
+  .game-card {
+    width: 100%;
+  }
+}

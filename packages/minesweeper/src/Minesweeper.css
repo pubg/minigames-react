@@ -1,0 +1,127 @@
+.minesweeper {
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  user-select: none;
+  padding: 16px;
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+}
+
+.minesweeper-header {
+  margin-bottom: 12px;
+  background: #c0c0c0;
+  padding: 8px;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.minesweeper-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mine-count {
+  font-size: 18px;
+  font-weight: bold;
+  background: #000;
+  color: #ff0000;
+  padding: 4px 8px;
+  font-family: 'Courier New', monospace;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.reset-button {
+  font-size: 24px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  padding: 4px 12px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.reset-button:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.game-result {
+  margin-top: 8px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #000080;
+}
+
+.minesweeper-board {
+  display: grid;
+  gap: 0;
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  padding: 4px;
+}
+
+.minesweeper-cell {
+  width: 30px;
+  height: 30px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.minesweeper-cell:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+.minesweeper-cell.revealed {
+  border: 1px solid #808080;
+  background: #c0c0c0;
+  cursor: default;
+}
+
+.minesweeper-cell.revealed.mine {
+  background: #ff0000;
+}
+
+.minesweeper-cell.adjacent-1 {
+  color: #0000ff;
+}
+
+.minesweeper-cell.adjacent-2 {
+  color: #008000;
+}
+
+.minesweeper-cell.adjacent-3 {
+  color: #ff0000;
+}
+
+.minesweeper-cell.adjacent-4 {
+  color: #000080;
+}
+
+.minesweeper-cell.adjacent-5 {
+  color: #800000;
+}
+
+.minesweeper-cell.adjacent-6 {
+  color: #008080;
+}
+
+.minesweeper-cell.adjacent-7 {
+  color: #000000;
+}
+
+.minesweeper-cell.adjacent-8 {
+  color: #808080;
+}
