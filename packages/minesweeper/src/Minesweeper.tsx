@@ -82,7 +82,7 @@ export const Minesweeper: React.FC<MinesweeperProps> = ({
         }
       }
     },
-    [board, gameState, mines, onFinish, startTime, rows, lines]
+    [board, gameState, mines, onFinish, startTime]
   );
 
   // Handle right click (flag)

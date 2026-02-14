@@ -86,32 +86,31 @@ export function revealCell(board: Board, row: number, col: number): Board {
   const cols = board[0].length;
   const newBoard = board.map(row => row.map(cell => ({ ...cell })));
   
-  if (
-    row < 0 ||
-    row >= rows ||
-    col < 0 ||
-    col >= cols ||
-    newBoard[row][col].isRevealed ||
-    newBoard[row][col].isFlagged
-  ) {
-    return newBoard;
-  }
+  // Use iterative approach with a queue to avoid deep recursion
+  const queue: [number, number][] = [[row, col]];
   
-  newBoard[row][col].isRevealed = true;
-  
-  // If no adjacent mines, reveal adjacent cells
-  if (newBoard[row][col].adjacentMines === 0 && !newBoard[row][col].isMine) {
-    for (let r = Math.max(0, row - 1); r <= Math.min(rows - 1, row + 1); r++) {
-      for (let c = Math.max(0, col - 1); c <= Math.min(cols - 1, col + 1); c++) {
-        if (r === row && c === col) continue;
-        if (!newBoard[r][c].isRevealed) {
-          const revealed = revealCell(newBoard, r, c);
-          // Copy the revealed state back
-          for (let i = 0; i < rows; i++) {
-            for (let j = 0; j < cols; j++) {
-              newBoard[i][j] = revealed[i][j];
-            }
-          }
+  while (queue.length > 0) {
+    const [r, c] = queue.shift()!;
+    
+    if (
+      r < 0 ||
+      r >= rows ||
+      c < 0 ||
+      c >= cols ||
+      newBoard[r][c].isRevealed ||
+      newBoard[r][c].isFlagged
+    ) {
+      continue;
+    }
+    
+    newBoard[r][c].isRevealed = true;
+    
+    // If no adjacent mines, add adjacent cells to queue
+    if (newBoard[r][c].adjacentMines === 0 && !newBoard[r][c].isMine) {
+      for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+          if (dr === 0 && dc === 0) continue;
+          queue.push([r + dr, c + dc]);
         }
       }
     }
