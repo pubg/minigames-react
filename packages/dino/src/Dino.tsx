@@ -158,8 +158,11 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
       // Head
       ctx.fillRect(x + 32, y + 14, 10, 8);
       ctx.fillRect(x + 38, y + 14, 4, 4);
-      // Eye
-      ctx.fillRect(x + 38, y + 14, 2, 2);
+      // Eye (white background then black pupil for contrast)
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(x + 38, y + 15, 2, 2);
+      ctx.fillStyle = '#535353';
+      ctx.fillRect(x + 38, y + 15, 1, 1);
       // Front leg
       ctx.fillRect(x + 30, y + 28, 4, 4);
       // Back leg
