@@ -1,0 +1,67 @@
+.dino-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dino-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.control-hint {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #666;
+  font-family: monospace;
+}
+
+.control-hint span {
+  padding: 5px 10px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.restart-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: #4CAF50;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: monospace;
+}
+
+.restart-button:hover {
+  background: #45a049;
+}
+
+.restart-button:active {
+  transform: scale(0.98);
+}
+
+.dino-canvas {
+  border: 2px solid #535353;
+  border-radius: 4px;
+  background: #f7f7f7;
+  cursor: pointer;
+  display: block;
+}
+
+.dino-canvas:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
