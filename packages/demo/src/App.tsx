@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Minesweeper } from '@minigames-react/minesweeper';
+import '@minigames-react/minesweeper/dist/index.css';
 import './App.css';
 
 interface GameResult {
