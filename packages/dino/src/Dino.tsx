@@ -20,6 +20,7 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
   const gameStateRef = useRef(gameState);
   const onFinishRef = useRef(onFinish);
   const startTimeRef = useRef(startTime);
+  const onFinishCalledRef = useRef(false);
 
   // Update refs when state changes
   useEffect(() => {
@@ -34,6 +35,7 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
     velocityYRef.current = 0;
     setStartTime(0);
     keysPressed.current.clear();
+    onFinishCalledRef.current = false;
   }, []);
 
   // Start game
@@ -108,7 +110,8 @@ export const Dino: React.FC<DinoProps> = ({ onFinish, speed = 1 }) => {
       if (currentState.gameOver) {
         const currentOnFinish = onFinishRef.current;
         const currentStartTime = startTimeRef.current;
-        if (currentOnFinish && currentStartTime > 0) {
+        if (currentOnFinish && currentStartTime > 0 && !onFinishCalledRef.current) {
+          onFinishCalledRef.current = true;
           const elapsedTime = (Date.now() - currentStartTime) / 1000;
           currentOnFinish({
             score: currentState.score,

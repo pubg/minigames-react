@@ -125,7 +125,7 @@ function App() {
 
           {dinoResult && (
             <div className="game-result">
-              🦕 Game Over! Score: {dinoResult.score} | Time: {dinoResult.time.toFixed(1)}s
+              🦕 Game Over! Score: {Math.floor(dinoResult.score)} | Time: {dinoResult.time.toFixed(1)}s
             </div>
           )}
         </div>
