@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Minesweeper } from '@minigames-react/minesweeper';
 import '@minigames-react/minesweeper/dist/index.css';
+import { Dino } from '@minigames-react/dino';
+import '@minigames-react/dino/dist/index.css';
 import './App.css';
 
 interface GameResult {
@@ -26,12 +28,17 @@ const difficulties: Record<Difficulty, DifficultyConfig> = {
 function App() {
   const [difficulty, setDifficulty] = useState<Difficulty>('easy');
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
+  const [dinoResult, setDinoResult] = useState<{ score: number; time: number } | null>(null);
   const [key, setKey] = useState(0);
 
   const config = difficulties[difficulty];
 
   const handleFinish = (result: GameResult) => {
     setGameResult(result);
+  };
+
+  const handleDinoFinish = (result: { score: number; time: number }) => {
+    setDinoResult(result);
   };
 
   const handleDifficultyChange = (newDifficulty: Difficulty) => {
@@ -99,6 +106,26 @@ function App() {
                   💥 Game Over! Try again!
                 </>
               )}
+            </div>
+          )}
+        </div>
+
+        <div className="game-card">
+          <h2>🦕 Dino Game</h2>
+          
+          <div className="game-info">
+            <p>
+              <strong>How to play:</strong>
+            </p>
+            <p>Press SPACE or ↑ to jump, ↓ to duck</p>
+            <p>Avoid obstacles and survive as long as you can!</p>
+          </div>
+
+          <Dino onFinish={handleDinoFinish} speed={1} />
+
+          {dinoResult && (
+            <div className="game-result">
+              🦕 Game Over! Score: {Math.floor(dinoResult.score)} | Time: {dinoResult.time.toFixed(1)}s
             </div>
           )}
         </div>
