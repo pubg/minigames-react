@@ -32,7 +32,6 @@ export const Snake: React.FC<SnakeProps> = ({
       height: canvasHeight,
       parent: containerRef.current,
       backgroundColor: '#a2d149',
-      scene: GameScene,
       input: {
         keyboard: true,
       },
@@ -42,10 +41,9 @@ export const Snake: React.FC<SnakeProps> = ({
     const game = new Phaser.Game(config);
     gameRef.current = game;
 
-    // Pass props to the scene
+    // Add and start scene with data (avoid auto-start without data)
     game.events.once('ready', () => {
-      const scene = game.scene.getScene('GameScene') as GameScene;
-      scene.scene.restart({ cols, rows, speed });
+      game.scene.add('GameScene', GameScene, true, { cols, rows, speed });
     });
 
     // Listen for game over events
