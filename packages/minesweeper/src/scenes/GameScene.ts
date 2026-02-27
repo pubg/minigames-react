@@ -174,6 +174,13 @@ export class GameScene extends Phaser.Scene {
 
   private handleLeftClick(row: number, col: number): void {
     const cell = this.board[row][col];
+
+    // Chording: click on revealed number where adjacent flags == number
+    if (cell.isRevealed && cell.adjacentMines > 0) {
+      this.handleChord(row, col);
+      return;
+    }
+
     if (cell.isFlagged || cell.isRevealed) return;
 
     if (this.state === 'ready') {
@@ -194,6 +201,55 @@ export class GameScene extends Phaser.Scene {
     }
 
     this.board = revealCell(this.board, row, col);
+    this.drawAll();
+
+    if (checkWin(this.board)) {
+      this.state = 'won';
+      this.drawAll();
+      this.showResult();
+    }
+  }
+
+  private handleChord(row: number, col: number): void {
+    const cell = this.board[row][col];
+    const rows = this.board.length;
+    const cols = this.board[0].length;
+
+    // Count adjacent flags
+    let adjacentFlags = 0;
+    for (let r = Math.max(0, row - 1); r <= Math.min(rows - 1, row + 1); r++) {
+      for (let c = Math.max(0, col - 1); c <= Math.min(cols - 1, col + 1); c++) {
+        if (r === row && c === col) continue;
+        if (this.board[r][c].isFlagged) adjacentFlags++;
+      }
+    }
+
+    if (adjacentFlags !== cell.adjacentMines) return;
+
+    // Reveal all non-flagged, non-revealed adjacent cells
+    let hitMine = false;
+    for (let r = Math.max(0, row - 1); r <= Math.min(rows - 1, row + 1); r++) {
+      for (let c = Math.max(0, col - 1); c <= Math.min(cols - 1, col + 1); c++) {
+        if (r === row && c === col) continue;
+        const adj = this.board[r][c];
+        if (adj.isRevealed || adj.isFlagged) continue;
+
+        if (adj.isMine) {
+          hitMine = true;
+        } else {
+          this.board = revealCell(this.board, r, c);
+        }
+      }
+    }
+
+    if (hitMine) {
+      this.board = revealAllMines(this.board);
+      this.state = 'lost';
+      this.drawAll();
+      this.showResult();
+      return;
+    }
+
     this.drawAll();
 
     if (checkWin(this.board)) {
