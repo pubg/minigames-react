@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Minesweeper } from '@minigames-react/minesweeper';
-import '@minigames-react/minesweeper/dist/index.css';
-import { Dino } from '@minigames-react/dino';
-import '@minigames-react/dino/dist/index.css';
-import { Snake } from '@minigames-react/snake';
-import '@minigames-react/snake/dist/index.css';
+import  React, { useState } from 'react';
+import { Minesweeper } from '@pubgcorp/minesweeper-minigame';
+import '@pubgcorp/minesweeper-minigame/dist/index.css';
+import { Dino } from '@pubgcorp/dino-minigame';
+import '@pubgcorp/dino-minigame/dist/index.css';
+import { Snake } from '@pubgcorp/snake-minigame';
+import '@pubgcorp/snake-minigame/dist/index.css';
 import './App.css';
 
 interface GameResult {
@@ -63,7 +63,7 @@ function App() {
         <h1>🎮 Minigames React</h1>
         <p>A collection of classic mini-games built with React</p>
       </div>
-      
+
       <div className="tab-bar">
         <button
           className={`tab-button ${activeTab === 'minesweeper' ? 'active' : ''}`}

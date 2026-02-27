@@ -1,5 +1,5 @@
 {
-  "name": "@minigames-react/demo",
+  "name": "@pubgcorp/demo",
   "version": "0.1.0",
   "private": true,
   "description": "Demo site for minigames-react",
@@ -10,9 +10,9 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@minigames-react/dino": "workspace:*",
-    "@minigames-react/minesweeper": "workspace:*",
-    "@minigames-react/snake": "workspace:*",
+    "@pubgcorp/dino-minigame": "workspace:*",
+    "@pubgcorp/minesweeper-minigame": "workspace:*",
+    "@pubgcorp/snake-minigame": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
