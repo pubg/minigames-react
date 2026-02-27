@@ -3,6 +3,8 @@ import { Minesweeper } from '@minigames-react/minesweeper';
 import '@minigames-react/minesweeper/dist/index.css';
 import { Dino } from '@minigames-react/dino';
 import '@minigames-react/dino/dist/index.css';
+import { Snake } from '@minigames-react/snake';
+import '@minigames-react/snake/dist/index.css';
 import './App.css';
 
 interface GameResult {
@@ -29,6 +31,7 @@ function App() {
   const [difficulty, setDifficulty] = useState<Difficulty>('easy');
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
   const [dinoResult, setDinoResult] = useState<{ score: number; time: number } | null>(null);
+  const [snakeResult, setSnakeResult] = useState<{ score: number; time: number } | null>(null);
   const [key, setKey] = useState(0);
 
   const config = difficulties[difficulty];
@@ -39,6 +42,10 @@ function App() {
 
   const handleDinoFinish = (result: { score: number; time: number }) => {
     setDinoResult(result);
+  };
+
+  const handleSnakeFinish = (result: { score: number; time: number }) => {
+    setSnakeResult(result);
   };
 
   const handleDifficultyChange = (newDifficulty: Difficulty) => {
@@ -126,6 +133,26 @@ function App() {
           {dinoResult && (
             <div className="game-result">
               🦕 Game Over! Score: {Math.floor(dinoResult.score)} | Time: {dinoResult.time.toFixed(1)}s
+            </div>
+          )}
+        </div>
+
+        <div className="game-card">
+          <h2>Snake</h2>
+
+          <div className="game-info">
+            <p>
+              <strong>How to play:</strong>
+            </p>
+            <p>Use arrow keys to move the snake</p>
+            <p>Eat apples to grow longer. Don't hit walls or yourself!</p>
+          </div>
+
+          <Snake cols={20} rows={20} speed={150} onFinish={handleSnakeFinish} />
+
+          {snakeResult && (
+            <div className="game-result">
+              Snake Game Over! Score: {snakeResult.score} | Time: {snakeResult.time.toFixed(1)}s
             </div>
           )}
         </div>

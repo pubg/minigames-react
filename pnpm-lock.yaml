@@ -20,6 +20,9 @@ importers:
       '@minigames-react/minesweeper':
         specifier: workspace:*
         version: link:../minesweeper
+      '@minigames-react/snake':
+        specifier: workspace:*
+        version: link:../snake
       react:
         specifier: ^18.2.0
         version: 18.3.1
