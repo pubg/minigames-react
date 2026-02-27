@@ -1,5 +1,5 @@
 {
-  "name": "@minigames-react/minesweeper",
+  "name": "@pubgcorp/minesweeper-minigame",
   "version": "0.1.0",
   "description": "Minesweeper game component for React",
   "main": "dist/index.js",
@@ -40,5 +40,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

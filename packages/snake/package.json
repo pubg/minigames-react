@@ -1,5 +1,5 @@
 {
-  "name": "@minigames-react/snake",
+  "name": "@pubgcorp/snake-minigame",
   "version": "0.1.0",
   "description": "Snake game component for React using Phaser",
   "main": "dist/index.js",
@@ -12,6 +12,11 @@
   },
   "keywords": ["react", "snake", "game", "phaser"],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pubg/minigames-react.git",
+    "directory": "packages/snake"
+  },
   "dependencies": {
     "phaser": "^3.90.0"
   },
@@ -35,5 +40,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
