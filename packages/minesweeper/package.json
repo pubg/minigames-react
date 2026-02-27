@@ -17,6 +17,9 @@
     "directory": "packages/minesweeper"
   },
   "license": "MIT",
+  "dependencies": {
+    "phaser": "^3.90.0"
+  },
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
