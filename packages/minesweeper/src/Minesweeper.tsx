@@ -5,7 +5,9 @@ import { GameScene } from './scenes/GameScene';
 import './Minesweeper.css';
 
 const CELL_SIZE = 30;
-const HEADER_HEIGHT = 40;
+const HEADER_HEIGHT = 50;
+const PADDING = 8;
+const BORDER = 3;
 
 export const Minesweeper: React.FC<MinesweeperProps> = ({
   lines,
@@ -25,15 +27,15 @@ export const Minesweeper: React.FC<MinesweeperProps> = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const canvasWidth = lines * CELL_SIZE;
-    const canvasHeight = rows * CELL_SIZE + HEADER_HEIGHT;
+    const canvasWidth = (PADDING + BORDER) * 2 + lines * CELL_SIZE;
+    const canvasHeight = PADDING * 2 + HEADER_HEIGHT + BORDER * 2 + rows * CELL_SIZE;
 
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
       width: canvasWidth,
       height: canvasHeight,
       parent: containerRef.current,
-      backgroundColor: '#999999',
+      backgroundColor: '#c0c0c0',
       input: {
         keyboard: true,
       },
