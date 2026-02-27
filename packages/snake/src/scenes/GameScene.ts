@@ -28,7 +28,7 @@ export class GameScene extends Phaser.Scene {
 
   private snake!: Position[];
   private direction!: Direction;
-  private nextDirection!: Direction;
+  private inputQueue!: Direction[];
   private apple!: Position;
   private score!: number;
   private gameOver!: boolean;
@@ -106,7 +106,7 @@ export class GameScene extends Phaser.Scene {
       { x: centerX - 2, y: centerY },
     ];
     this.direction = 'RIGHT';
-    this.nextDirection = 'RIGHT';
+    this.inputQueue = [];
 
     this.spawnApple();
     this.draw();
@@ -142,12 +142,17 @@ export class GameScene extends Phaser.Scene {
   }
 
   private tryChangeDirection(newDir: Direction): void {
-    // Ignore reverse direction
-    if (OPPOSITE[newDir] === this.direction) {
+    // Check against the last queued direction (or current direction if queue is empty)
+    const lastDir = this.inputQueue.length > 0
+      ? this.inputQueue[this.inputQueue.length - 1]
+      : this.direction;
+
+    // Ignore reverse and same direction
+    if (OPPOSITE[newDir] === lastDir || newDir === lastDir) {
       return;
     }
 
-    this.nextDirection = newDir;
+    this.inputQueue.push(newDir);
 
     // Start game on first input
     if (!this.gameStarted) {
@@ -166,7 +171,9 @@ export class GameScene extends Phaser.Scene {
   private moveSnake(): void {
     if (this.gameOver) return;
 
-    this.direction = this.nextDirection;
+    if (this.inputQueue.length > 0) {
+      this.direction = this.inputQueue.shift()!;
+    }
     const head = this.snake[0];
     const newHead: Position = { ...head };
 
